@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Portfolio Manager Pro - TechCloud</title>
+	<meta name="description" content="Advanced portfolio management system with real-time analytics and risk assessment">
+	<meta name="keywords" content="TechCloud,Portfolio,Investment,Analytics,Finance">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!-- Styles -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	
+	<!-- Chart.js for portfolio charts -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
+	<link rel="shortcut icon" href="#">
+</head>
+
+<body>
+	<div class="wrapper">
+		<!-- Modern Navigation -->
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top modern-nav">
+			<div class="container">
+				<a class="navbar-brand" href="index.html">
+					<img src="img/logo.png" alt="TechCloud" class="logo">
+					<span class="brand-text">TechCloud</span>
+				</a>
+				
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="index.html">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.html#about">About</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.html#contact">Contact</a>
+						</li>
+						<li class="nav-item auth-links">
+							<a class="nav-link" href="login.html">Login</a>
+						</li>
+						<li class="nav-item auth-links">
+							<a class="nav-link btn btn-outline-light ml-2" href="registration.html">Sign Up</a>
+						</li>
+						<li class="nav-item user-info" style="display: none;">
+							<div class="nav-link">
+								Welcome, <span class="user-name"></span>
+							</div>
+						</li>
+						<li class="nav-item user-info" style="display: none;">
+							<a class="nav-link btn btn-outline-light ml-2" href="#" onclick="authManager.signOut()">Logout</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<!-- Portfolio Dashboard -->
+		<section class="portfolio-dashboard">
+			<div class="container-fluid">
+				<div class="row">
+					<!-- Sidebar -->
+					<div class="col-lg-3 col-md-4 sidebar">
+						<div class="sidebar-content">
+							<div class="app-header">
+								<h2><i class="fa fa-chart-line"></i> Portfolio Manager Pro</h2>
+								<p class="text-muted">Advanced Investment Analytics</p>
+							</div>
+							
+							<div class="portfolio-summary">
+								<div class="summary-card">
+									<h4>Total Portfolio Value</h4>
+									<div class="value-display">$1,247,892.50</div>
+									<div class="change positive">+2.34% (+$28,456)</div>
+								</div>
+								
+								<div class="summary-card">
+									<h4>Today's P&L</h4>
+									<div class="value-display">+$3,247.80</div>
+									<div class="change positive">+0.26%</div>
+								</div>
+								
+								<div class="summary-card">
+									<h4>Cash Available</h4>
+									<div class="value-display">$45,230.00</div>
+								</div>
+							</div>
+							
+							<div class="quick-actions">
+								<h5>Quick Actions</h5>
+								<button class="btn btn-primary-gradient btn-block mb-2" onclick="showBuyModal()">
+									<i class="fa fa-plus"></i> Buy Stock
+								</button>
+								<button class="btn btn-outline-primary btn-block mb-2" onclick="showSellModal()">
+									<i class="fa fa-minus"></i> Sell Stock
+								</button>
+								<button class="btn btn-outline-secondary btn-block" onclick="generateReport()">
+									<i class="fa fa-file-pdf"></i> Generate Report
+								</button>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Main Content -->
+					<div class="col-lg-9 col-md-8 main-content">
+						<div class="dashboard-header">
+							<h3>Portfolio Overview</h3>
+							<div class="header-actions">
+								<button class="btn btn-outline-primary" onclick="refreshData()">
+									<i class="fa fa-refresh"></i> Refresh
+								</button>
+								<select class="form-control ml-2" style="width: auto; display: inline-block;">
+									<option>Last 30 Days</option>
+									<option>Last 90 Days</option>
+									<option>Last Year</option>
+									<option>All Time</option>
+								</select>
+							</div>
+						</div>
+						
+						<!-- Charts Row -->
+						<div class="row mb-4">
+							<div class="col-lg-8">
+								<div class="chart-card">
+									<h5>Portfolio Performance</h5>
+									<canvas id="portfolioChart"></canvas>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="chart-card">
+									<h5>Asset Allocation</h5>
+									<canvas id="allocationChart"></canvas>
+								</div>
+							</div>
+						</div>
+						
+						<!-- Holdings Table -->
+						<div class="holdings-section">
+							<div class="section-header">
+								<h5>Current Holdings</h5>
+								<div class="search-box">
+									<input type="text" class="form-control" placeholder="Search holdings..." id="holdingsSearch">
+								</div>
+							</div>
+							
+							<div class="table-responsive">
+								<table class="table table-hover holdings-table">
+									<thead>
+										<tr>
+											<th>Symbol</th>
+											<th>Company</th>
+											<th>Shares</th>
+											<th>Price</th>
+											<th>Market Value</th>
+											<th>Day Change</th>
+											<th>Total Return</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody id="holdingsTableBody">
+										<!-- Holdings will be populated by JavaScript -->
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Buy/Sell Modal -->
+		<div class="modal fade" id="transactionModal" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="transactionModalTitle">Buy Stock</h5>
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="transactionForm">
+							<div class="form-group">
+								<label>Stock Symbol</label>
+								<input type="text" class="form-control" id="stockSymbol" placeholder="e.g., AAPL" required>
+							</div>
+							<div class="form-group">
+								<label>Quantity</label>
+								<input type="number" class="form-control" id="quantity" placeholder="Number of shares" required>
+							</div>
+							<div class="form-group">
+								<label>Order Type</label>
+								<select class="form-control" id="orderType">
+									<option value="market">Market Order</option>
+									<option value="limit">Limit Order</option>
+								</select>
+							</div>
+							<div class="form-group" id="limitPriceGroup" style="display: none;">
+								<label>Limit Price</label>
+								<input type="number" class="form-control" id="limitPrice" step="0.01" placeholder="Price per share">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" onclick="executeTransaction()">Execute Order</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="https://cdn.jsdelivr.net/npm/supabase-js@2"></script>
+	<script src="js/supabase-config.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/custom.js"></script>
+	<script src="js/auth.js"></script>
+	
+	<!-- Portfolio App JavaScript -->
+	<script>
+		// Sample portfolio data
+		const portfolioData = {
+			holdings: [
+				{ symbol: 'AAPL', company: 'Apple Inc.', shares: 150, price: 175.23, dayChange: 2.34, totalReturn: 15.67 },
+				{ symbol: 'GOOGL', company: 'Alphabet Inc.', shares: 50, price: 2456.78, dayChange: -1.23, totalReturn: 8.45 },
+				{ symbol: 'MSFT', company: 'Microsoft Corp.', shares: 200, price: 345.67, dayChange: 1.89, totalReturn: 12.34 },
+				{ symbol: 'TSLA', company: 'Tesla Inc.', shares: 75, price: 234.56, dayChange: 4.56, totalReturn: -5.23 },
+				{ symbol: 'AMZN', company: 'Amazon.com Inc.', shares: 25, price: 3234.78, dayChange: 0.78, totalReturn: 22.45 }
+			]
+		};
+
+		// Initialize portfolio dashboard
+		document.addEventListener('DOMContentLoaded', function() {
+			initializeCharts();
+			populateHoldingsTable();
+			setupEventListeners();
+		});
+
+		function initializeCharts() {
+			// Portfolio Performance Chart
+			const ctx1 = document.getElementById('portfolioChart').getContext('2d');
+			new Chart(ctx1, {
+				type: 'line',
+				data: {
+					labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+					datasets: [{
+						label: 'Portfolio Value',
+						data: [1150000, 1180000, 1165000, 1210000, 1235000, 1247892],
+						borderColor: '#667eea',
+						backgroundColor: 'rgba(102, 126, 234, 0.1)',
+						tension: 0.4
+					}]
+				},
+				options: {
+					responsive: true,
+					plugins: {
+						legend: { display: false }
+					},
+					scales: {
+						y: {
+							beginAtZero: false,
+							ticks: {
+								callback: function(value) {
+									return '$' + (value / 1000000).toFixed(1) + 'M';
+								}
+							}
+						}
+					}
+				}
+			});
+
+			// Asset Allocation Chart
+			const ctx2 = document.getElementById('allocationChart').getContext('2d');
+			new Chart(ctx2, {
+				type: 'doughnut',
+				data: {
+					labels: ['Stocks', 'Bonds', 'Cash', 'Other'],
+					datasets: [{
+						data: [75, 15, 7, 3],
+						backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#f5576c']
+					}]
+				},
+				options: {
+					responsive: true,
+					plugins: {
+						legend: { position: 'bottom' }
+					}
+				}
+			});
+		}
+
+		function populateHoldingsTable() {
+			const tbody = document.getElementById('holdingsTableBody');
+			tbody.innerHTML = '';
+
+			portfolioData.holdings.forEach(holding => {
+				const marketValue = holding.shares * holding.price;
+				const dayChangeClass = holding.dayChange >= 0 ? 'positive' : 'negative';
+				const totalReturnClass = holding.totalReturn >= 0 ? 'positive' : 'negative';
+
+				const row = `
+					<tr>
+						<td><strong>${holding.symbol}</strong></td>
+						<td>${holding.company}</td>
+						<td>${holding.shares.toLocaleString()}</td>
+						<td>$${holding.price.toFixed(2)}</td>
+						<td>$${marketValue.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+						<td class="${dayChangeClass}">${holding.dayChange >= 0 ? '+' : ''}${holding.dayChange.toFixed(2)}%</td>
+						<td class="${totalReturnClass}">${holding.totalReturn >= 0 ? '+' : ''}${holding.totalReturn.toFixed(2)}%</td>
+						<td>
+							<button class="btn btn-sm btn-outline-primary" onclick="showSellModal('${holding.symbol}')">Sell</button>
+						</td>
+					</tr>
+				`;
+				tbody.innerHTML += row;
+			});
+		}
+
+		function setupEventListeners() {
+			// Order type change
+			document.getElementById('orderType').addEventListener('change', function() {
+				const limitPriceGroup = document.getElementById('limitPriceGroup');
+				limitPriceGroup.style.display = this.value === 'limit' ? 'block' : 'none';
+			});
+
+			// Holdings search
+			document.getElementById('holdingsSearch').addEventListener('input', function() {
+				const searchTerm = this.value.toLowerCase();
+				const rows = document.querySelectorAll('#holdingsTableBody tr');
+				
+				rows.forEach(row => {
+					const symbol = row.cells[0].textContent.toLowerCase();
+					const company = row.cells[1].textContent.toLowerCase();
+					const isVisible = symbol.includes(searchTerm) || company.includes(searchTerm);
+					row.style.display = isVisible ? '' : 'none';
+				});
+			});
+		}
+
+		function showBuyModal() {
+			document.getElementById('transactionModalTitle').textContent = 'Buy Stock';
+			document.getElementById('stockSymbol').value = '';
+			document.getElementById('quantity').value = '';
+			$('#transactionModal').modal('show');
+		}
+
+		function showSellModal(symbol = '') {
+			document.getElementById('transactionModalTitle').textContent = 'Sell Stock';
+			document.getElementById('stockSymbol').value = symbol;
+			document.getElementById('quantity').value = '';
+			$('#transactionModal').modal('show');
+		}
+
+		function executeTransaction() {
+			const symbol = document.getElementById('stockSymbol').value;
+			const quantity = document.getElementById('quantity').value;
+			const orderType = document.getElementById('orderType').value;
+			
+			if (!symbol || !quantity) {
+				alert('Please fill in all required fields.');
+				return;
+			}
+
+			// Simulate transaction
+			alert(`Transaction executed: ${document.getElementById('transactionModalTitle').textContent} ${quantity} shares of ${symbol}`);
+			$('#transactionModal').modal('hide');
+		}
+
+		function refreshData() {
+			// Simulate data refresh
+			const btn = event.target;
+			btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Refreshing...';
+			
+			setTimeout(() => {
+				btn.innerHTML = '<i class="fa fa-refresh"></i> Refresh';
+				alert('Data refreshed successfully!');
+			}, 2000);
+		}
+
+		function generateReport() {
+			alert('Generating portfolio report... This feature will be available soon.');
+		}
+	</script>
+</body>
+</html>

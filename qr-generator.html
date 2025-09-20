@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>QR Code Generator - TechCloud</title>
+    <meta name="description" content="Advanced QR code generator with multiple input types and customization options">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Styles -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="shortcut icon" href="#">
+    
+    <style>
+        .qr-generator-app {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        
+        .app-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            margin: 20px 0;
+        }
+        
+        .app-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .app-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .app-subtitle {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .input-type-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .input-type-tab {
+            padding: 12px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .input-type-tab:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .input-type-tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .input-section {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .input-section.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            outline: none;
+        }
+        
+        .qr-output-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .qr-canvas-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        #qrCanvas {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        
+        .customization-panel {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .customization-title {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .color-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .color-input {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .size-slider {
+            width: 100%;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .download-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .download-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .download-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .generate-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 auto;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+        }
+        
+        .wifi-security-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            width: 100%;
+        }
+        
+        .debug {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            display: none; /* Hidden by default, can be shown for debugging */
+        }
+        
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .app-title {
+                font-size: 2rem;
+            }
+            
+            .input-type-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Modern Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top modern-nav">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <img src="img/logo.png" alt="TechCloud" class="logo">
+                    <span class="brand-text">TechCloud</span>
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html#contact">Contact</a>
+                        </li>
+                        <li class="nav-item auth-links">
+                            <a class="nav-link btn-outline-light" href="login.html">Login</a>
+                        </li>
+                        <li class="nav-item auth-links">
+                            <a class="nav-link btn-primary-custom" href="registration.html">Sign Up</a>
+                        </li>
+                        
+                        <!-- User Info (hidden by default) -->
+                        <li class="nav-item dropdown user-info" style="display: none;">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                                <i class="fa fa-user"></i> <span class="user-name">User</span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="profile.html"><i class="fa fa-user"></i> Profile</a>
+                                <a class="dropdown-item" href="dashboard.html"><i class="fa fa-dashboard"></i> Dashboard</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="logoutBtn"><i class="fa fa-sign-out"></i> Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- QR Generator App -->
+        <section class="qr-generator-app">
+            <div class="container">
+                <div class="app-container">
+                    <div class="app-header">
+                        <h1 class="app-title">QR Code Generator</h1>
+                        <p class="app-subtitle">Create custom QR codes for URLs, text, WiFi, contacts, and more</p>
+                    </div>
+
+                    <!-- Debug Panel (hidden by default) -->
+                    <div class="debug" id="debug">Debug info will appear here...</div>
+
+                    <!-- Input Type Tabs -->
+                    <div class="input-type-tabs">
+                        <div class="input-type-tab active" onclick="switchTab('url')">
+                            <i class="fa fa-link"></i>
+                            URL
+                        </div>
+                        <div class="input-type-tab" onclick="switchTab('text')">
+                            <i class="fa fa-font"></i>
+                            Text
+                        </div>
+                        <div class="input-type-tab" onclick="switchTab('wifi')">
+                            <i class="fa fa-wifi"></i>
+                            WiFi
+                        </div>
+                        <div class="input-type-tab" onclick="switchTab('contact')">
+                            <i class="fa fa-user"></i>
+                            Contact
+                        </div>
+                        <div class="input-type-tab" onclick="switchTab('email')">
+                            <i class="fa fa-envelope"></i>
+                            Email
+                        </div>
+                        <div class="input-type-tab" onclick="switchTab('sms')">
+                            <i class="fa fa-comment"></i>
+                            SMS
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <!-- URL Input Section -->
+                            <div class="input-section active" id="url-section">
+                                <h3><i class="fa fa-link"></i> URL QR Code</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Website URL</label>
+                                    <input type="url" class="form-control" id="urlInput" placeholder="https://example.com" value="https://techcloud.com" oninput="generateQR()">
+                                </div>
+                            </div>
+
+                            <!-- Text Input Section -->
+                            <div class="input-section" id="text-section">
+                                <h3><i class="fa fa-font"></i> Text QR Code</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Text Content</label>
+                                    <textarea class="form-control" id="textInput" rows="4" placeholder="Enter your text here..." oninput="generateQR()">Hello World!</textarea>
+                                </div>
+                            </div>
+
+                            <!-- WiFi Input Section -->
+                            <div class="input-section" id="wifi-section">
+                                <h3><i class="fa fa-wifi"></i> WiFi QR Code</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Network Name (SSID)</label>
+                                    <input type="text" class="form-control" id="wifiSSID" placeholder="MyWiFiNetwork" value="MyWiFi" oninput="generateQR()">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Password</label>
+                                    <input type="text" class="form-control" id="wifiPassword" placeholder="password123" value="password123" oninput="generateQR()">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Security Type</label>
+                                    <select class="form-control wifi-security-select" id="wifiSecurity" onchange="generateQR()">
+                                        <option value="WPA">WPA/WPA2</option>
+                                        <option value="WEP">WEP</option>
+                                        <option value="nopass">Open (No Password)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <input type="checkbox" id="wifiHidden" onchange="generateQR()"> Hidden Network
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Contact Input Section -->
+                            <div class="input-section" id="contact-section">
+                                <h3><i class="fa fa-user"></i> Contact QR Code</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="contactName" placeholder="John Doe" value="John Doe" oninput="generateQR()">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="contactPhone" placeholder="+1234567890" value="+1234567890" oninput="generateQR()">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="contactEmail" placeholder="john@example.com" value="john@techcloud.com" oninput="generateQR()">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Organization</label>
+                                    <input type="text" class="form-control" id="contactOrg" placeholder="Company Name" value="TechCloud" oninput="generateQR()">
+                                </div>
+                            </div>
+
+                            <!-- Email Input Section -->
+                            <div class="input-section" id="email-section">
+                                <h3><i class="fa fa-envelope"></i> Email QR Code</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="emailAddress" placeholder="recipient@example.com" value="contact@techcloud.com" oninput="generateQR()">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="emailSubject" placeholder="Email subject" value="Hello from TechCloud" oninput="generateQR()">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Message</label>
+                                    <textarea class="form-control" id="emailBody" rows="3" placeholder="Email message..." oninput="generateQR()">Thank you for using TechCloud services!</textarea>
+                                </div>
+                            </div>
+
+                            <!-- SMS Input Section -->
+                            <div class="input-section" id="sms-section">
+                                <h3><i class="fa fa-comment"></i> SMS QR Code</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="smsPhone" placeholder="+1234567890" value="+1234567890" oninput="generateQR()">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Message</label>
+                                    <textarea class="form-control" id="smsMessage" rows="3" placeholder="SMS message..." oninput="generateQR()">Hello from TechCloud!</textarea>
+                                </div>
+                            </div>
+
+                            <!-- Customization Panel -->
+                            <div class="customization-panel">
+                                <h4 class="customization-title">
+                                    <i class="fa fa-paint-brush"></i>
+                                    Customization
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Foreground Color</label>
+                                            <div class="color-input-group">
+                                                <input type="color" class="color-input" id="foregroundColor" value="#000000" onchange="generateQR()">
+                                                <input type="text" class="form-control" id="foregroundColorText" value="#000000" onchange="syncColor('foreground')">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Background Color</label>
+                                            <div class="color-input-group">
+                                                <input type="color" class="color-input" id="backgroundColor" value="#ffffff" onchange="generateQR()">
+                                                <input type="text" class="form-control" id="backgroundColorText" value="#ffffff" onchange="syncColor('background')">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Size: <span id="sizeValue">256</span>px</label>
+                                    <input type="range" class="form-control size-slider" id="qrSize" min="128" max="512" value="256" oninput="updateSize(); generateQR()">
+                                </div>
+                            </div>
+
+                            <button class="generate-btn" onclick="generateQR()">
+                                <i class="fa fa-magic"></i>
+                                Generate QR Code
+                            </button>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="qr-output-section">
+                                <h4><i class="fa fa-qrcode"></i> Your QR Code</h4>
+                                <div class="qr-canvas-container">
+                                    <canvas id="qrCanvas" width="256" height="256"></canvas>
+                                </div>
+                                <div class="download-buttons">
+                                    <button class="download-btn primary" onclick="downloadQR()">
+                                        <i class="fa fa-download"></i>
+                                        Download PNG
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- QRious Library (Local) - Load first -->
+    <script src="js/qrious.min.js"></script>
+    
+    <script>
+        let currentType = 'url';
+        let debugEl = document.getElementById('debug');
+        let qr = null;
+        
+        function log(message) {
+            console.log(message);
+            if (debugEl) {
+                debugEl.innerHTML += message + '<br>';
+            }
+        }
+        
+        // Initialize when page loads
+        window.onload = function() {
+            log('Page loaded');
+            if (typeof QRious !== 'undefined') {
+                log('✓ QRious library loaded successfully');
+                
+                // Initialize QRious
+                const canvas = document.getElementById('qrCanvas');
+                if (canvas) {
+                    qr = new QRious({
+                        element: canvas,
+                        size: 256,
+                        value: 'https://techcloud.com'
+                    });
+                    log('✓ QR Generator initialized with default QR code');
+                } else {
+                    log('✗ Canvas element not found');
+                }
+            } else {
+                log('✗ QRious library is NOT loaded!');
+                alert('QR Code library failed to load. Please refresh the page.');
+            }
+        };
+        
+        function switchTab(type) {
+            log('Switching to tab: ' + type);
+            
+            // Remove active from all tabs
+            const tabs = document.querySelectorAll('.input-type-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active from all sections
+            const sections = document.querySelectorAll('.input-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Add active to clicked tab
+            event.target.classList.add('active');
+            
+            // Add active to corresponding section
+            const section = document.getElementById(type + '-section');
+            if (section) {
+                section.classList.add('active');
+                currentType = type;
+                log('✓ Switched to: ' + type);
+                generateQR(); // Auto-generate when switching
+            } else {
+                log('✗ Section not found: ' + type + '-section');
+            }
+        }
+        
+        function updateSize() {
+            const sizeSlider = document.getElementById('qrSize');
+            const sizeValue = document.getElementById('sizeValue');
+            if (sizeSlider && sizeValue) {
+                sizeValue.textContent = sizeSlider.value;
+            }
+        }
+
+        function syncColor(type) {
+            if (type === 'foreground') {
+                const colorPicker = document.getElementById('foregroundColor');
+                const colorText = document.getElementById('foregroundColorText');
+                if (colorPicker && colorText) {
+                    colorPicker.value = colorText.value;
+                    generateQR();
+                }
+            } else if (type === 'background') {
+                const colorPicker = document.getElementById('backgroundColor');
+                const colorText = document.getElementById('backgroundColorText');
+                if (colorPicker && colorText) {
+                    colorPicker.value = colorText.value;
+                    generateQR();
+                }
+            }
+        }
+        
+        function generateQR() {
+            if (!qr) {
+                log('✗ QR object not initialized');
+                return;
+            }
+            
+            log('Generating QR for type: ' + currentType);
+            
+            let data = '';
+            
+            switch(currentType) {
+                case 'url':
+                    const urlInput = document.getElementById('urlInput');
+                    data = urlInput ? urlInput.value : 'https://techcloud.com';
+                    break;
+                case 'text':
+                    const textInput = document.getElementById('textInput');
+                    data = textInput ? textInput.value : 'Hello World!';
+                    break;
+                case 'wifi':
+                    const ssid = document.getElementById('wifiSSID').value || 'MyWiFi';
+                    const password = document.getElementById('wifiPassword').value || 'password123';
+                    const security = document.getElementById('wifiSecurity').value || 'WPA';
+                    data = `WIFI:T:${security};S:${ssid};P:${password};H:false;;`;
+                    break;
+                case 'contact':
+                    const name = document.getElementById('contactName').value || 'John Doe';
+                    const phone = document.getElementById('contactPhone').value || '+1234567890';
+                    const email = document.getElementById('contactEmail').value || 'john@techcloud.com';
+                    const org = document.getElementById('contactOrg').value || 'TechCloud';
+                    data = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nORG:${org}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
+                    break;
+                case 'email':
+                    const emailAddr = document.getElementById('emailAddress').value || 'contact@techcloud.com';
+                    const subject = document.getElementById('emailSubject').value || '';
+                    const body = document.getElementById('emailBody').value || '';
+                    let mailto = `mailto:${emailAddr}`;
+                    const params = [];
+                    if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
+                    if (body) params.push(`body=${encodeURIComponent(body)}`);
+                    if (params.length > 0) mailto += '?' + params.join('&');
+                    data = mailto;
+                    break;
+                case 'sms':
+                    const smsPhone = document.getElementById('smsPhone').value || '+1234567890';
+                    const smsMessage = document.getElementById('smsMessage').value || '';
+                    data = `sms:${smsPhone}${smsMessage ? `?body=${encodeURIComponent(smsMessage)}` : ''}`;
+                    break;
+                default:
+                    data = 'Hello World!';
+            }
+            
+            log('QR Data: ' + data);
+            
+            try {
+                // Get customization values
+                const qrSize = document.getElementById('qrSize');
+                const foregroundColor = document.getElementById('foregroundColor');
+                const backgroundColor = document.getElementById('backgroundColor');
+                
+                const size = qrSize ? parseInt(qrSize.value) : 256;
+                const fgColor = foregroundColor ? foregroundColor.value : '#000000';
+                const bgColor = backgroundColor ? backgroundColor.value : '#ffffff';
+
+                qr.set({
+                    value: data,
+                    size: size,
+                    foreground: fgColor,
+                    background: bgColor
+                });
+                log('✓ QR code generated successfully!');
+            } catch (e) {
+                log('✗ Error generating QR: ' + e.message);
+            }
+        }
+        
+        function downloadQR() {
+            if (!qr) {
+                log('✗ QR object not initialized');
+                return;
+            }
+            
+            log('Downloading QR code...');
+            
+            try {
+                const canvas = document.getElementById('qrCanvas');
+                const dataURL = canvas.toDataURL('image/png');
+                
+                const link = document.createElement('a');
+                link.download = 'qrcode-' + currentType + '.png';
+                link.href = dataURL;
+                link.click();
+                
+                log('✓ Download initiated');
+            } catch (e) {
+                log('✗ Download error: ' + e.message);
+            }
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.modern-nav');
+            if (navbar) {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+        });
+    </script>
+    
+    <!-- Load other scripts after QR is initialized -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/custom.js"></script>
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/session-manager.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

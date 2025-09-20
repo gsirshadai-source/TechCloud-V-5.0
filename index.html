@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>TechCloud - Modern Digital Solutions</title>
+	<meta name="description"
+		content="Transform your business with cutting-edge cloud technology and innovative digital solutions">
+	<meta name="keywords" content="TechCloud,Cloud Computing,Digital Transformation,Portfolio Management,Health Tech">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Styles -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+		rel="stylesheet">
+
+	<!-- Supabase -->
+	<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+	<link rel="shortcut icon" href="#">
+</head>
+
+<body>
+	<div class="wrapper">
+		<!-- Modern Navigation -->
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top modern-nav">
+			<div class="container">
+				<a class="navbar-brand" href="#">
+					<img src="img/logo.png" alt="TechCloud" class="logo">
+					<span class="brand-text">TechCloud</span>
+				</a>
+
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+						<li class="nav-item"><a class="nav-link" href="#apps">Applications</a></li>
+						<li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+						<li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+
+						<!-- Auth Links -->
+						<li class="nav-item auth-links">
+							<a class="nav-link btn-outline-light" href="login.html">Login</a>
+						</li>
+						<li class="nav-item auth-links">
+							<a class="nav-link btn-primary-custom" href="registration.html">Sign Up</a>
+						</li>
+
+						<!-- User Info (hidden by default) -->
+						<li class="nav-item dropdown user-info" style="display: none;">
+							<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+								<i class="fa fa-user"></i> <span class="user-name">User</span>
+							</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="profile.html"><i class="fa fa-user"></i> Profile</a>
+								<a class="dropdown-item" href="dashboard.html"><i class="fa fa-dashboard"></i>
+									Dashboard</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#" id="logoutBtn"><i class="fa fa-sign-out"></i>
+									Logout</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<!-- Hero Section -->
+		<section id="home" class="hero-modern">
+			<div class="hero-background">
+				<div class="hero-particles"></div>
+			</div>
+			<div class="container">
+				<div class="row align-items-center min-vh-100">
+					<div class="col-lg-6">
+						<div class="hero-content">
+							<h1 class="hero-title">
+								<span class="text-gradient">Transform</span> Your Business<br>
+								with Modern Technology
+							</h1>
+							<p class="hero-description">
+								Empowering businesses through innovative cloud solutions, cutting-edge applications,
+								and digital transformation strategies that drive growth and efficiency.
+							</p>
+							<div class="hero-buttons">
+								<a href="#services" class="btn btn-primary-gradient btn-lg">Explore Services</a>
+								<a href="#apps" class="btn btn-outline-white btn-lg">View Apps</a>
+								<!-- Debug button for testing auth state -->
+								<button onclick="testAuthState()" class="btn btn-outline-white btn-sm"
+									style="font-size: 12px; margin-left: 10px;">Test Auth State</button>
+							</div>
+							<div class="hero-stats">
+								<div class="stat-item">
+									<h3>500+</h3>
+									<p>Projects Completed</p>
+								</div>
+								<div class="stat-item">
+									<h3>50+</h3>
+									<p>Happy Clients</p>
+								</div>
+								<div class="stat-item">
+									<h3>99%</h3>
+									<p>Uptime</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="hero-visual">
+							<div class="floating-card card-1">
+								<i class="fa fa-cloud"></i>
+								<span>Cloud Solutions</span>
+							</div>
+							<div class="floating-card card-2">
+								<i class="fa fa-mobile"></i>
+								<span>Mobile Apps</span>
+							</div>
+							<div class="floating-card card-3">
+								<i class="fa fa-shield"></i>
+								<span>Security</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Services Section -->
+		<section id="services" class="services-modern">
+			<div class="container">
+				<div class="section-header text-center">
+					<h2 class="section-title">Our <span class="text-gradient">Services</span></h2>
+					<p class="section-subtitle">Comprehensive technology solutions for modern businesses</p>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="service-card-modern">
+							<div class="service-icon">
+								<i class="fa fa-cloud"></i>
+							</div>
+							<h3>Cloud Infrastructure</h3>
+							<p>Scalable and secure cloud solutions with AWS, Azure, and Google Cloud Platform
+								implementations.</p>
+							<a href="cloud-infrastructure.html" class="service-link">Learn More <i
+									class="fa fa-arrow-right"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="service-card-modern">
+							<div class="service-icon">
+								<i class="fa fa-cogs"></i>
+							</div>
+							<h3>DevOps & Automation</h3>
+							<p>Streamline development with CI/CD pipelines, containerization, and infrastructure as
+								code.</p>
+							<a href="devops-automation.html" class="service-link">Learn More <i
+									class="fa fa-arrow-right"></i></a>
+						</div>
+					</div>
+
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="service-card-modern">
+							<div class="service-icon">
+								<i class="fa fa-shield"></i>
+							</div>
+							<h3>Cybersecurity</h3>
+							<p>Comprehensive security solutions and compliance frameworks to protect your digital
+								assets.</p>
+							<a href="cybersecurity.html" class="service-link">Learn More <i
+									class="fa fa-arrow-right"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Applications Section -->
+		<section id="apps" class="apps-showcase">
+			<div class="container">
+				<div class="section-header text-center">
+					<h2 class="section-title">Featured <span class="text-gradient">Applications</span></h2>
+					<p class="section-subtitle">Innovative solutions for various industries and needs</p>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-4 mb-4">
+						<div class="app-card">
+							<div class="app-preview">
+								<div class="app-mockup portfolio-mockup">
+									<i class="fa fa-chart-line fa-3x"></i>
+								</div>
+							</div>
+							<div class="app-info">
+								<h3>Portfolio Manager Pro</h3>
+								<p>Advanced portfolio management system with real-time analytics, risk assessment, and
+									automated reporting for investment professionals.</p>
+								<div class="app-features">
+									<span class="feature-tag">Real-time Analytics</span>
+									<span class="feature-tag">Risk Management</span>
+									<span class="feature-tag">Automated Reports</span>
+								</div>
+								<a href="portfolio.html" class="launch-btn">Launch App</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4 mb-4">
+						<div class="app-card">
+							<div class="app-preview">
+								<div class="app-mockup health-mockup">
+									<i class="fa fa-heartbeat fa-3x"></i>
+								</div>
+							</div>
+							<div class="app-info">
+								<h3>Health Tracker</h3>
+								<p>Comprehensive health monitoring application for tracking blood sugar, blood pressure,
+									and other vital health metrics with AI insights.</p>
+								<div class="app-features">
+									<span class="feature-tag">Blood Sugar Tracking</span>
+									<span class="feature-tag">AI Insights</span>
+									<span class="feature-tag">Health Reports</span>
+								</div>
+								<a href="health-tracker.html" class="launch-btn">Launch App</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4 mb-4">
+						<div class="app-card">
+							<div class="app-preview">
+								<div class="app-mockup qr-mockup">
+									<i class="fa fa-qrcode fa-3x"></i>
+								</div>
+							</div>
+							<div class="app-info">
+								<h3>QR Code Generator</h3>
+								<p>Advanced QR code generator supporting URLs, text, WiFi credentials, contacts, email,
+									and SMS with full customization options.</p>
+								<div class="app-features">
+									<span class="feature-tag">Multiple Types</span>
+									<span class="feature-tag">Custom Colors</span>
+									<span class="feature-tag">Download Options</span>
+								</div>
+								<a href="qr-generator.html" class="launch-btn">Launch App</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- About Section -->
+		<section id="about" class="about-modern">
+			<div class="container">
+				<div class="row align-items-center">
+					<div class="col-lg-6">
+						<div class="about-content">
+							<h2>Why Choose <span class="text-gradient">TechCloud</span>?</h2>
+							<p>We're passionate about leveraging cutting-edge technology to solve real-world problems
+								and drive digital transformation for businesses of all sizes.</p>
+
+							<div class="feature-list">
+								<div class="feature-item">
+									<i class="fa fa-check-circle"></i>
+									<span>Expert team with 10+ years experience</span>
+								</div>
+								<div class="feature-item">
+									<i class="fa fa-check-circle"></i>
+									<span>24/7 support and maintenance</span>
+								</div>
+								<div class="feature-item">
+									<i class="fa fa-check-circle"></i>
+									<span>Scalable and secure solutions</span>
+								</div>
+								<div class="feature-item">
+									<i class="fa fa-check-circle"></i>
+									<span>Custom development approach</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="about-visual">
+							<div class="tech-stack">
+								<div class="tech-item">AWS</div>
+								<div class="tech-item">React</div>
+								<div class="tech-item">Node.js</div>
+								<div class="tech-item">Python</div>
+								<div class="tech-item">Docker</div>
+								<div class="tech-item">Kubernetes</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Contact Section -->
+		<section id="contact" class="contact-modern">
+			<div class="container">
+				<div class="section-header text-center">
+					<h2 class="section-title">Get In <span class="text-gradient">Touch</span></h2>
+					<p class="section-subtitle">Ready to transform your business? Let's discuss your project</p>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-8 mx-auto">
+						<div class="contact-form-wrapper">
+							<form class="contact-form">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text" class="form-control" placeholder="Your Name" required>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="email" class="form-control" placeholder="Your Email" required>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Subject" required>
+								</div>
+								<div class="form-group">
+									<textarea class="form-control" rows="5" placeholder="Your Message"
+										required></textarea>
+								</div>
+								<div class="text-center">
+									<button type="submit" class="btn btn-primary-gradient btn-lg">Send Message</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Modern Footer -->
+		<footer class="footer-modern">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="footer-brand">
+							<img src="img/logo.png" alt="TechCloud" class="footer-logo">
+							<h4>TechCloud</h4>
+							<p>Transforming businesses through innovative technology solutions and digital expertise.
+							</p>
+						</div>
+					</div>
+					<div class="col-lg-2">
+						<h5>Services</h5>
+						<ul class="footer-links">
+							<li><a href="#">Cloud Solutions</a></li>
+							<li><a href="#">DevOps</a></li>
+							<li><a href="#">Security</a></li>
+							<li><a href="#">Consulting</a></li>
+						</ul>
+					</div>
+					<div class="col-lg-2">
+						<h5>Applications</h5>
+						<ul class="footer-links">
+							<li><a href="portfolio.html">Portfolio Manager</a></li>
+							<li><a href="health-tracker.html">Health Tracker</a></li>
+							<li><a href="qr-generator.html">QR Generator</a></li>
+							<li><a href="#">More Apps</a></li>
+						</ul>
+					</div>
+					<div class="col-lg-2">
+						<h5>Company</h5>
+						<ul class="footer-links">
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">Careers</a></li>
+							<li><a href="#">Blog</a></li>
+							<li><a href="#">Contact</a></li>
+						</ul>
+					</div>
+					<div class="col-lg-2">
+						<h5>Follow Us</h5>
+						<div class="social-links">
+							<a href="#"><i class="fa fa-linkedin"></i></a>
+							<a href="#"><i class="fa fa-twitter"></i></a>
+							<a href="#"><i class="fa fa-github"></i></a>
+							<a href="#"><i class="fa fa-instagram"></i></a>
+						</div>
+					</div>
+				</div>
+				<hr class="footer-divider">
+				<div class="row">
+					<div class="col-12 text-center">
+						<p>&copy; 2024 TechCloud. All rights reserved.</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	<!-- AI Chatbot Widget -->
+	<div id="aiChatbot" class="ai-chatbot">
+		<div class="chatbot-toggle" id="chatbotToggle">
+			<i class="fa fa-comments"></i>
+			<span class="chat-notification" id="chatNotification">1</span>
+		</div>
+
+		<div class="chatbot-window" id="chatbotWindow">
+			<div class="chatbot-header">
+				<div class="chatbot-avatar">
+					<i class="fa fa-robot"></i>
+				</div>
+				<div class="chatbot-info">
+					<h4>TechCloud AI Assistant</h4>
+					<p class="status">Online • Ready to help</p>
+				</div>
+				<button class="chatbot-minimize" id="chatbotMinimize">
+					<i class="fa fa-minus"></i>
+				</button>
+			</div>
+
+			<div class="chatbot-messages" id="chatbotMessages">
+				<div class="message bot-message">
+					<div class="message-avatar">
+						<i class="fa fa-robot"></i>
+					</div>
+					<div class="message-content">
+						<p>👋 Hello! I'm your TechCloud AI Assistant. I can help you with:</p>
+						<ul>
+							<li>Information about our services</li>
+							<li>Technical questions</li>
+							<li>Application guidance</li>
+							<li>General support</li>
+						</ul>
+						<p>How can I assist you today?</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="chatbot-input-area">
+				<div class="input-container">
+					<input type="text" id="chatbotInput" placeholder="Type your message..." maxlength="500">
+					<button id="chatbotSend" class="send-button">
+						<i class="fa fa-paper-plane"></i>
+					</button>
+				</div>
+				<div class="chatbot-footer">
+					<small>Powered by AI • <span id="responseTime">~2s response time</span></small>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="https://cdn.jsdelivr.net/npm/supabase-js@2"></script>
+	<script src="js/supabase-config.js"></script>
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/custom.js"></script>
+
+	<!-- Supabase -->
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+	<script src="js/session-manager.js"></script>
+	<script src="js/auth.js"></script>
+
+	<script>
+		// Smooth scrolling (only for anchor links that have targets on this page)
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				const target = document.querySelector(this.getAttribute('href'));
+				if (target) {
+					e.preventDefault();
+					target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				}
+				// If no target found, let the browser handle the link normally
+			});
+		});
+
+		// Navbar scroll effect
+		window.addEventListener('scroll', function () {
+			const navbar = document.querySelector('.modern-nav');
+			if (window.scrollY > 50) {
+				navbar.classList.add('scrolled');
+			} else {
+				navbar.classList.remove('scrolled');
+			}
+		});
+
+		// Auth handling
+		document.addEventListener('DOMContentLoaded', function () {
+			console.log('DOM loaded, checking auth state...');
+
+			// Wait for authManager to be initialized
+			function waitForAuthManager() {
+				if (typeof window.authManager !== 'undefined') {
+					console.log('AuthManager found, checking authentication...');
+
+					// Force check authentication state and update UI
+					setTimeout(async () => {
+						try {
+							const isAuth = await window.authManager.isAuthenticated();
+							console.log('Authentication check result:', isAuth);
+							console.log('Current user:', window.authManager.currentUser);
+
+							// Force UI update
+							window.authManager.updateUI();
+						} catch (error) {
+							console.error('Auth check error:', error);
+						}
+					}, 500); // Wait 500ms for auth manager to fully initialize
+				} else {
+					console.log('Waiting for AuthManager...');
+					setTimeout(waitForAuthManager, 100); // Check again in 100ms
+				}
+			}
+
+			waitForAuthManager();
+
+			const logoutBtn = document.getElementById('logoutBtn');
+			if (logoutBtn) {
+				logoutBtn.addEventListener('click', async function (e) {
+					e.preventDefault();
+					console.log('Logout clicked');
+					if (window.authManager) {
+						await window.authManager.signOut();
+					}
+				});
+			}
+
+			// Debug: Test auth link clicks
+			const authLinks = document.querySelectorAll('.auth-links .nav-link');
+			authLinks.forEach(link => {
+				link.addEventListener('click', function (e) {
+					console.log('Auth link clicked:', this.href);
+					// Don't prevent default - let navigation happen
+				});
+			});
+		});
+
+		// Test function for debugging authentication state
+		async function testAuthState() {
+			console.log('=== AUTH STATE TEST ===');
+
+			if (typeof window.authManager === 'undefined') {
+				console.log('❌ AuthManager not found');
+				alert('AuthManager not found - it may still be initializing. Try again in a moment.');
+				return;
+			}
+
+			console.log('✅ AuthManager found');
+			console.log('Current user:', window.authManager.currentUser);
+			console.log('Current session:', window.authManager.currentSession);
+
+			try {
+				const isAuth = await window.authManager.isAuthenticated();
+				console.log('isAuthenticated() result:', isAuth);
+
+				if (isAuth) {
+					alert('✅ You are logged in!\nUser: ' + (window.authManager.currentUser?.email || 'Unknown'));
+					console.log('Forcing UI update...');
+					window.authManager.updateUI();
+				} else {
+					alert('❌ You are not logged in');
+				}
+			} catch (error) {
+				console.error('Auth test error:', error);
+				alert('❌ Auth test failed: ' + error.message);
+			}
+
+			console.log('=== END AUTH TEST ===');
+		}
+	</script>
+</body>
+
+</html>
